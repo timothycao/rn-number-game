@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 
 import Card from '../Card';
+import Colors from '../../constants/colors';
 
 const Start = props => {
   return (
@@ -13,8 +14,8 @@ const Start = props => {
           <TextInput />
         </View>
         <View style={styles.buttonContainer}>
-          <View style={styles.button}><Button title="Reset" onPress={() => {}} color="#ff0080" /></View>
-          <View style={styles.button}><Button title="Confirm" onPress={() => {}} color="#0080ff" /></View>
+          <View style={styles.button}><Button title="Reset" onPress={() => {}} color={Colors.secondary} /></View>
+          <View style={styles.button}><Button title="Confirm" onPress={() => {}} color={Colors.primary} /></View>
         </View>
       </Card>
     </View>
