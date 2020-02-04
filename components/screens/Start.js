@@ -45,7 +45,7 @@ const Start = props => {
           }
           <View style={styles.buttonContainer}>
             <View style={styles.button}><Button title="Reset" onPress={resetInputHandler} color={Colors.secondary} /></View>
-            <View style={styles.button}><Button title={confirmed ? "Start" : "Confirm"} onPress={confirmInputHandler} color={Colors.primary} /></View>
+            <View style={styles.button}><Button title={confirmed ? "Start" : "Confirm"} onPress={confirmed ? () => props.onStartGame(selectedNumber) : confirmInputHandler} color={Colors.primary} /></View>
           </View>
         </Card>
       </View>
