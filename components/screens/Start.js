@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet, TouchableWithoutFeedback, Keyboard, Ale
 
 import Card from '../Card';
 import Input from '../Input';
+import Number from '../Number';
 import Colors from '../../constants/colors';
 
 const Start = props => {
@@ -39,7 +40,7 @@ const Start = props => {
           <Text>{confirmed ? 'You selected' : 'Your Number'}</Text>
           {
             confirmed ?
-            <Text style={styles.number}>{selectedNumber}</Text> :
+            <Number style={styles.number}>{selectedNumber}</Number> :
             <Input style={styles.input} keyboardType="numeric" maxLength={2} onChangeText={numberInputHandler} value={enteredValue} />
           }
           <View style={styles.buttonContainer}>
@@ -81,8 +82,7 @@ const styles = StyleSheet.create({
     width: 100
   },
   number: {
-    fontSize: 22,
-    marginVertical: 10
+    borderColor: Colors.secondary
   }
 });
 
