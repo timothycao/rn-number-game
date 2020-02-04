@@ -31,25 +31,22 @@ const Start = props => {
     setEnteredValue('');
   }
 
-  let confirmedOutput;
-
-  if (confirmed) {
-    confirmedOutput = <Text>Your Number: {selectedNumber}</Text>
-  }
-
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.screen}>
         <Text style={styles.title}>New Game</Text>
         <Card style={styles.inputContainer}>
-          <Text>Your Number</Text>
-          <Input style={styles.input} keyboardType="numeric" maxLength={2} onChangeText={numberInputHandler} value={enteredValue} />
+          <Text>{confirmed ? 'You selected' : 'Your Number'}</Text>
+          {
+            confirmed ?
+            <Text style={styles.number}>{selectedNumber}</Text> :
+            <Input style={styles.input} keyboardType="numeric" maxLength={2} onChangeText={numberInputHandler} value={enteredValue} />
+          }
           <View style={styles.buttonContainer}>
             <View style={styles.button}><Button title="Reset" onPress={resetInputHandler} color={Colors.secondary} /></View>
-            <View style={styles.button}><Button title="Confirm" onPress={confirmInputHandler} color={Colors.primary} /></View>
+            <View style={styles.button}><Button title={confirmed ? "Start" : "Confirm"} onPress={confirmInputHandler} color={Colors.primary} /></View>
           </View>
         </Card>
-        {confirmedOutput}
       </View>
     </TouchableWithoutFeedback>
   );
@@ -82,6 +79,10 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 100
+  },
+  number: {
+    fontSize: 22,
+    marginVertical: 10
   }
 });
 
