@@ -4,18 +4,26 @@ import { StyleSheet, View } from 'react-native';
 import Header from './components/Header';
 import Start from './components/screens/Start';
 import Game from './components/screens/Game';
+import GameOver from './components/screens/GameOver';
 
 export default function App() {
   const [userNumber, setUserNumber] = useState();
+  const [guessCount, setGuessCount] = useState(0);
 
   const startGameHandler = (selectedNumber) => {
     setUserNumber(selectedNumber);
   };
 
+  const gameOverHandler = count => {
+    setGuessCount(count);
+  };
+
   let content = <Start onStartGame={startGameHandler} />;
 
-  if (userNumber) {
-    content = <Game userNumber={userNumber} />;
+  if (userNumber && guessCount <= 1) {
+    content = <Game userNumber={userNumber} onGameOver={gameOverHandler} />;
+  } else if (guessCount > 1) {
+    content = <GameOver guessCount={guessCount} userNumber={userNumber} />;
   }
 
   return (

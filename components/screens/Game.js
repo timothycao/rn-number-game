@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import { View, Text, Button, StyleSheet, Alert } from 'react-native';
 
 import Card from '../Card';
@@ -12,12 +12,21 @@ const generatRandomBetween = (min, max) => {
 };
 
 const Game = props => {
-  const [currentGuess, setCurrentGuess] = useState(generatRandomBetween(1, 100))
+  const [currentGuess, setCurrentGuess] = useState(generatRandomBetween(1, 100));
+  const [count, setCount] = useState(1);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
 
+  const { userNumber, onGameOver } = props;
+
+  useEffect(() => {
+    if (currentGuess === userNumber) {
+      onGameOver(count);
+    }
+  }, [currentGuess, userNumber, onGameOver]);
+
   const nextGuessHandler = direction => {
-    if ((direction === 'lower' && currentGuess < props.userNumber) || (direction === 'higher' && currentGuess > props.userNumber)) {
+    if ((direction === 'lower' && currentGuess < userNumber) || (direction === 'higher' && currentGuess > userNumber)) {
       Alert.alert('Hint', 'Wrong direction!', [{text: 'Okay', style: 'cancel'}]);
       return;
     } else if (direction === 'lower') {
@@ -27,6 +36,7 @@ const Game = props => {
     }
     const nextGuess = generatRandomBetween(currentLow.current, currentHigh.current);
     setCurrentGuess(nextGuess);
+    setCount(currentCount => currentCount + 1);
   }
 
   return (
