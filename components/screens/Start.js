@@ -5,6 +5,7 @@ import Card from '../Card';
 import Input from '../Input';
 import Number from '../Number';
 import Colors from '../../constants/colors';
+import DefaultStyles from '../../constants/styles';
 
 const Start = props => {
 
@@ -35,9 +36,9 @@ const Start = props => {
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.screen}>
-        <Text style={styles.title}>New Game</Text>
+        <Text style={DefaultStyles.subTitle}>New Game</Text>
         <Card style={styles.inputContainer}>
-          <Text>{confirmed ? 'You selected' : 'Your Number'}</Text>
+          <Text style={DefaultStyles.body}>{confirmed ? 'You selected' : 'Your Number'}</Text>
           {
             confirmed ?
             <Number style={styles.number}>{selectedNumber}</Number> :
@@ -58,10 +59,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     alignItems: 'center'
-  },
-  title: {
-    fontSize: 20,
-    marginVertical: 10
   },
   inputContainer: {
     width: 300,
