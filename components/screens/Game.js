@@ -5,15 +5,19 @@ import Card from '../Card';
 import Number from '../Number';
 import DefaultStyles from '../../constants/styles';
 
-const generatRandomBetween = (min, max) => {
+const generatRandomBetween = (min, max, exclude) => {
   min = Math.ceil(min);
   max = Math.floor(max);
   const random = Math.floor(Math.random() * (max - min)) + min;
-  return random;
+  if (random === exclude) {
+    return generatRandomBetween(min, max, exclude);
+  } else {
+    return random;
+  }
 };
 
 const Game = props => {
-  const [currentGuess, setCurrentGuess] = useState(generatRandomBetween(1, 100));
+  const [currentGuess, setCurrentGuess] = useState(generatRandomBetween(1, 100, props.userNumber));
   const [count, setCount] = useState(1);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
@@ -35,7 +39,7 @@ const Game = props => {
     } else if (direction === 'higher') {
       currentLow.current = currentGuess;
     }
-    const nextGuess = generatRandomBetween(currentLow.current, currentHigh.current);
+    const nextGuess = generatRandomBetween(currentLow.current, currentHigh.current, currentGuess);
     setCurrentGuess(nextGuess);
     setCount(currentCount => currentCount + 1);
   }
