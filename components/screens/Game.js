@@ -16,6 +16,13 @@ const generatRandomBetween = (min, max, exclude) => {
   }
 };
 
+const renderListItem = (listLength, itemData) => (
+  <Card style={styles.listItem}>
+    <Text style={DefaultStyles.body}>#{listLength - itemData.index}</Text>
+    <Text style={DefaultStyles.body}>{itemData.item}</Text>
+  </Card>
+);
+
 const Game = props => {
   const initialGuess = generatRandomBetween(1, 100, props.userNumber);
   const [currentGuess, setCurrentGuess] = useState(initialGuess);
@@ -56,11 +63,14 @@ const Game = props => {
           <View style={styles.button}><Button title="HIGHER" onPress={nextGuessHandler.bind(this, 'higher')} /></View>
         </View>
       </Card>
-      <FlatList
-        keyExtractor={item => item}
-        data={pastGuesses}
-        renderItem={({ item }) => <Text>{item}</Text>}
-      />
+      <View style={styles.listContainer}>
+        <FlatList
+          keyExtractor={item => item}
+          data={pastGuesses}
+          renderItem={renderListItem.bind(this, pastGuesses.length)}
+          contentContainerStyle={styles.list}
+        />
+      </View>
     </View>
   )
 };
@@ -74,7 +84,8 @@ const styles = StyleSheet.create({
   container: {
     width: 300,
     maxWidth: '80%',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginBottom: 5
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -84,6 +95,21 @@ const styles = StyleSheet.create({
   },
   button: {
     width: 100
+  },
+  listContainer: {
+    flex: 1,
+    width: '80%'
+  },
+  list: {
+    flexGrow: 1,
+    justifyContent: 'flex-end'
+  },
+  listItem: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 15,
+    marginVertical: 5
   }
 });
 
