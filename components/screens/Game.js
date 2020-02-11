@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect} from 'react';
-import { View, Text, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, Button, StyleSheet, Alert, FlatList } from 'react-native';
 
 import Card from '../Card';
 import Number from '../Number';
@@ -17,8 +17,9 @@ const generatRandomBetween = (min, max, exclude) => {
 };
 
 const Game = props => {
-  const [currentGuess, setCurrentGuess] = useState(generatRandomBetween(1, 100, props.userNumber));
-  const [count, setCount] = useState(1);
+  const initialGuess = generatRandomBetween(1, 100, props.userNumber);
+  const [currentGuess, setCurrentGuess] = useState(initialGuess);
+  const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);
   const currentLow = useRef(1);
   const currentHigh = useRef(100);
 
@@ -26,7 +27,7 @@ const Game = props => {
 
   useEffect(() => {
     if (currentGuess === userNumber) {
-      onGameOver(count);
+      onGameOver(pastGuesses.length);
     }
   }, [currentGuess, userNumber, onGameOver]);
 
@@ -37,11 +38,11 @@ const Game = props => {
     } else if (direction === 'lower') {
       currentHigh.current = currentGuess;
     } else if (direction === 'higher') {
-      currentLow.current = currentGuess;
+      currentLow.current = currentGuess + 1;
     }
     const nextGuess = generatRandomBetween(currentLow.current, currentHigh.current, currentGuess);
     setCurrentGuess(nextGuess);
-    setCount(currentCount => currentCount + 1);
+    setPastGuesses(curPastGuesses => [nextGuess.toString(), ...curPastGuesses]);
   }
 
   return (
@@ -55,6 +56,11 @@ const Game = props => {
           <View style={styles.button}><Button title="HIGHER" onPress={nextGuessHandler.bind(this, 'higher')} /></View>
         </View>
       </Card>
+      <FlatList
+        keyExtractor={item => item}
+        data={pastGuesses}
+        renderItem={({ item }) => <Text>{item}</Text>}
+      />
     </View>
   )
 };

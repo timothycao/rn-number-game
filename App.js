@@ -26,7 +26,7 @@ export default function App() {
 
   const newGameHandler = () => {
     setUserNumber(null);
-    setGuessCount(1);
+    setGuessCount(0);
   }
 
   const startGameHandler = (selectedNumber) => {
@@ -39,9 +39,9 @@ export default function App() {
 
   let content = <Start onStartGame={startGameHandler} />;
 
-  if (userNumber && guessCount <= 1) {
+  if (userNumber && guessCount <= 0) {
     content = <Game userNumber={userNumber} onGameOver={gameOverHandler} />;
-  } else if (guessCount > 1) {
+  } else if (guessCount > 0) {
     content = <GameOver guessCount={guessCount} userNumber={userNumber} onNewGame={newGameHandler} />;
   }
 
